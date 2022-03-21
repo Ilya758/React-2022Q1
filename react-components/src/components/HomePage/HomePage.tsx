@@ -1,6 +1,7 @@
 import React from 'react';
 import { Header } from '../Header/Header';
 import { THeaderProps } from '../Header/Header.types';
+import { SearchBar } from '../SearchBar/SearchBar';
 
 export class HomePage extends React.Component {
   pageChars: THeaderProps = {
@@ -15,6 +16,9 @@ export class HomePage extends React.Component {
     return (
       <>
         <Header pageChars={this.pageChars} />
+        <main>
+          <SearchBar />
+        </main>
       </>
     );
   }

@@ -9,7 +9,7 @@ export type TResponse = {
 
 export interface IState {
   input: string;
-  movies?: TMovies;
+  movies?: TMovies | null;
 }
 
 export type TAppProps = {

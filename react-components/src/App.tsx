@@ -14,7 +14,7 @@ export class App extends React.Component {
 
   state: IState = {
     input: App.pull(),
-    movies: [],
+    movies: null,
   };
 
   componentDidMount() {

@@ -1,0 +1,12 @@
+.movies {
+  &__list {
+    // margin-top: 150px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+}
+
+.card .card-image img {
+  aspect-ratio: 0.8;
+}

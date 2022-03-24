@@ -1,4 +1,5 @@
 import React, { SyntheticEvent } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import './App.scss';
 import { Route, Routes } from 'react-router';
 import { HomePage } from './components/HomePage/HomePage';
@@ -42,13 +43,15 @@ export class App extends React.Component {
     const props = { handleChange, state, commit };
 
     return (
-      <div className="app-container">
-        <Routes>
-          <Route path="/" element={<HomePage {...props} />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </div>
+      <BrowserRouter>
+        <div className="app-container">
+          <Routes>
+            <Route path="/" element={<HomePage {...props} />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
     );
   }
 }

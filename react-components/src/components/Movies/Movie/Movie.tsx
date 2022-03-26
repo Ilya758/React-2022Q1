@@ -9,8 +9,6 @@ export default class Movie extends React.Component<TMovie> {
   render() {
     const { Poster, Type, Year, Title } = this.props;
 
-    console.log(this.props);
-
     return (
       <div style={{ color: 'black' }}>
         <div className="col s12 m7">

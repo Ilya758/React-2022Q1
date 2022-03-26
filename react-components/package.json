@@ -16,7 +16,6 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-react": "^1.1.7",
     "eslint-plugin-prettier": "^4.0.0",
-    "lint-staged": "^12.1.2",
     "node-sass": "^7.0.1",
     "prettier": "^2.5.1",
     "react": "^17.0.2",
@@ -33,9 +32,7 @@
   },
   "lint-staged": {
     "*.(ts|tsx)": [
-      "npm run lint",
-      "git add",
-      "git commit"
+      "npm run lint"
     ]
   },
   "scripts": {
@@ -47,7 +44,7 @@
     "alls": "git add . && npx lint-staged",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "prepare": "cd ../ && husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -68,6 +65,7 @@
     ]
   },
   "devDependencies": {
-    "husky": "^7.0.4"
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.7"
   }
 }

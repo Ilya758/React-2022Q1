@@ -3,9 +3,11 @@ import { TMovies } from './components/Movies/Movie/Movie.types';
 
 export type TResponseKeys = 'Response' | 'Search' | 'TotalResults';
 
-export type TResponse = {
-  [key in TResponseKeys]: string;
-};
+export interface IResponse {
+  Response: string;
+  TotalResults: string;
+  Search: TMovies;
+}
 
 export interface IState {
   input: string;

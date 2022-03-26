@@ -14,6 +14,7 @@ export class SearchBar extends React.Component<TAppProps> {
       <div style={{ marginTop: '120px' }} className="row">
         <div className="input-field col s12">
           <input
+            name="text"
             onChange={this.props.handleChange}
             id="text"
             type="text"

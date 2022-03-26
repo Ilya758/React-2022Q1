@@ -6,7 +6,7 @@ import { HomePage } from './components/HomePage/HomePage';
 import { AboutPage } from './components/AboutPage/AboutPage';
 import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
 import { PRE_URL } from './global/constants/preUrl';
-import { IState, TResponse } from './App.types';
+import { IState, IResponse } from './App.types';
 
 export class App extends React.Component {
   private static pull = (): string => {
@@ -14,16 +14,21 @@ export class App extends React.Component {
   };
 
   state: IState = {
-    input: App.pull(),
+    input: '',
     movies: null,
   };
 
   componentDidMount() {
+    this.setState({
+      input: App.pull(),
+    });
+
     fetch(`${PRE_URL}&s=avengers`)
       .then((res: Response) => res.json())
-      .then((data: TResponse) => {
+      .then((data: IResponse) => {
         this.setState({ movies: data.Search });
-      });
+      })
+      .catch((err) => console.log(err));
   }
 
   private commit = (): void => {

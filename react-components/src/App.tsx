@@ -7,6 +7,7 @@ import { AboutPage } from './components/AboutPage/AboutPage';
 import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
 import { PRE_URL } from './global/constants/preUrl';
 import { IState, IResponse } from './App.types';
+import Form from './components/FormPage/FormPage';
 
 export class App extends React.Component {
   private static pull = (): string => {
@@ -52,6 +53,7 @@ export class App extends React.Component {
         <div className="app-container">
           <Routes>
             <Route path="/" element={<HomePage {...props} />} />
+            <Route path="form" element={<Form />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

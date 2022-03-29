@@ -1,0 +1,31 @@
+.form {
+  margin-top: 125px;
+
+  &__heading {
+    font-size: 32px;
+    text-align: center;
+  }
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+
+  .col {
+    &.s6 {
+      margin-left: initial;
+    }
+  }
+}
+
+.select {
+  display: block;
+}
+
+.span {
+  &_margin {
+    &_right {
+      margin-right: 10px;
+    }
+  }
+}

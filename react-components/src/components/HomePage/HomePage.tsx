@@ -14,9 +14,9 @@ export class HomePage extends React.Component<TAppProps> {
   pageChars: THeaderProps = {
     heading: 'Welcome to the HomePage!',
     leftBtn: ' I want to know about AboutPage!',
-    rightBtn: 'Today I am lucky!',
+    rightBtn: 'FIll the form!',
     leftPath: '/about',
-    rightPath: '/404',
+    rightPath: '/form',
   };
 
   render() {

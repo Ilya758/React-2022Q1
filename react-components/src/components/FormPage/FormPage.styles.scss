@@ -1,5 +1,10 @@
 .form {
-  margin-top: 125px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  max-width: 35%;
+  margin: 0 auto;
+  text-align: left;
 
   &__heading {
     font-size: 32px;
@@ -27,5 +32,139 @@
     &_right {
       margin-right: 10px;
     }
+  }
+}
+
+.field {
+  &__heading {
+    font-weight: bold;
+    width: 100%;
+  }
+}
+
+.error {
+  color: red;
+}
+
+.button {
+  &_type {
+    &_submit {
+      font: 300 20px 'Roboto', sans-serif;
+      border: none;
+      border-radius: 3px;
+      padding: 5px 12px;
+      transition: 0.25s;
+
+      &:disabled {
+        background-color: #8080806e;
+      }
+
+      &:not(:disabled):hover {
+        cursor: pointer;
+        background-color: #26a69a;
+      }
+
+      &:not(:disabled):active {
+        box-shadow: 0 0 10px -1px #26a69a;
+        transform: translate(0, -5px);
+      }
+    }
+  }
+}
+
+input[type='checkbox'] {
+  display: none;
+}
+
+.checkbox {
+  &_type {
+    &_skills {
+      & + span {
+        cursor: pointer;
+        transition: 0.25s;
+        user-select: none;
+
+        &:hover {
+          text-shadow: 0 1px 2px#26a69a;
+        }
+      }
+
+      &:checked + span {
+        color: #26a69a;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.slider {
+  display: flex;
+  margin: 0 15px;
+  align-items: center;
+  width: 70px;
+  height: 25px;
+  border-radius: 20px;
+  background-color: #949494;
+  transition: 0.35s;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 10px -2px #26a69a;
+  }
+
+  &__input:checked + .slider {
+    background-color: #84c7c1;
+
+    & > .thumb {
+      left: 42px;
+      background-color: #26a69a;
+    }
+  }
+}
+
+.thumb {
+  position: relative;
+  left: -2px;
+  border-radius: 50%;
+  display: block;
+  background-color: #f1f1f1;
+  height: 30px;
+  width: 30px;
+  transition: 0.35s;
+}
+
+.cards {
+  &__list {
+    display: grid;
+    margin-top: 15px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+}
+
+.disabled {
+  display: none;
+}
+
+.success {
+  position: absolute;
+  padding: 40px;
+  box-shadow: 0 0 10px 0 #26a69a;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  color: #26a69a;
+  background: white;
+  transform: translate(-50%, 50%);
+  animation: popup 0.75s linear;
+}
+
+@keyframes popup {
+  0% {
+    transform: translate(-50%, 50%);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 0%);
   }
 }

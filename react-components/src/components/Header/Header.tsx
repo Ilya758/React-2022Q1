@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { IHeader, THeaderProps } from './Header.types';
+import './Header.scss';
 
 export class Header extends React.Component<IHeader> {
   pageChars!: THeaderProps;
@@ -16,14 +17,10 @@ export class Header extends React.Component<IHeader> {
         <nav>
           <div className="nav-wrapper">
             <h1 className="card-panel orange lighten-2 center-align">{this.pageChars.heading}</h1>
-            <Link to={this.pageChars.leftPath} className="waves-effect waves-light btn">
+            <Link to={this.pageChars.leftPath} className="header__link">
               {this.pageChars.leftBtn}
             </Link>
-            <Link
-              style={{ marginLeft: '10px' }}
-              to={this.pageChars.rightPath}
-              className="waves-effect waves-light blue btn"
-            >
+            <Link to={this.pageChars.rightPath} className="header__link">
               {this.pageChars.rightBtn}
             </Link>
           </div>

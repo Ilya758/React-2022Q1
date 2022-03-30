@@ -11,17 +11,15 @@ export class SearchBar extends React.Component<TAppProps> {
 
   render() {
     return (
-      <div style={{ marginTop: '120px' }} className="row">
-        <div className="input-field col s12">
-          <input
-            name="text"
-            onChange={this.props.handleChange}
-            id="text"
-            type="text"
-            className="validate"
-            value={this.props.state.input}
-          />
-        </div>
+      <div style={{ margin: '30px 0' }}>
+        <input
+          name="text"
+          onChange={this.props.handleChange}
+          id="text"
+          type="text"
+          className="input"
+          value={this.props.state.input}
+        />
       </div>
     );
   }

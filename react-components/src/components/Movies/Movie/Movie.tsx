@@ -1,5 +1,6 @@
 import React from 'react';
 import { TMovie } from './Movie.types';
+import './Movie.scss';
 
 export default class Movie extends React.Component<TMovie> {
   constructor(props: TMovie) {
@@ -11,16 +12,12 @@ export default class Movie extends React.Component<TMovie> {
 
     return (
       <div style={{ color: 'black' }}>
-        <div className="col s12 m7">
-          <div className="card">
-            <div className="card-image">
-              <img src={Poster} />
-              <span className="card-title"> {Title} </span>
-            </div>
-            <div className="card-content">
-              <p>{Type}</p>
-              <p>{Year}</p>
-            </div>
+        <div className="card">
+          <img className="card__img" src={Poster} />
+          <div className="card__content">
+            <p> {Title} </p>
+            <p>{Type}</p>
+            <p>{Year}</p>
           </div>
         </div>
       </div>

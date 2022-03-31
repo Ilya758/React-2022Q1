@@ -90,8 +90,8 @@ export default class FormPage extends React.Component {
         break;
       }
       case 'file': {
-        const filePath = (this.user.file.current as HTMLInputElement).value;
-        this.errors.file = filePath.length ? false : true;
+        const element = this.user.file.current as HTMLInputElement;
+        this.errors.file = (element.files as FileList).item(0)?.name ? false : true;
         break;
       }
       case 'skills': {
@@ -233,7 +233,7 @@ export default class FormPage extends React.Component {
         <Header pageChars={this.pageChars} />
         <main>
           <form className="form">
-            <h1 className="form__heading">Please, fill the fields of that form!</h1>
+            <h1 className="form__heading">Your personal form</h1>
             <div className="input__container">
               <span className="field__heading">Type your fullname: </span>
               <input
@@ -296,6 +296,9 @@ export default class FormPage extends React.Component {
               )}
             </div>
             <div>
+              <label className="field__heading" htmlFor="file">
+                Place your file
+              </label>
               <input
                 onChange={() => {
                   this.setFormState() &&
@@ -367,7 +370,9 @@ export default class FormPage extends React.Component {
               {this.errors.skills && <p className="error">Please, choose your personal skills</p>}
             </div>
             <div className="input__container">
-              <span className="field__heading">Choose your birthday: </span>
+              <label className="field__heading" htmlFor="date">
+                Choose your birthday:
+              </label>
               <input
                 onChange={() => {
                   this.setFormState() &&
@@ -383,7 +388,9 @@ export default class FormPage extends React.Component {
               {this.errors.birthday && <p className="error">Please, type your birthday</p>}
             </div>
             <div className="input__container">
-              <span className="field__heading">Choose your city: </span>
+              <label className="field__heading" htmlFor="city">
+                Choose your city:
+              </label>
               <select
                 onChange={() => {
                   this.setFormState() &&

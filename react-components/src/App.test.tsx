@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { App } from './App';
 import { IResponse } from './App.types';
 import Movies from './components/Movies/Movies';
+import { renderWithRouter } from './utils/testHelpers';
 
 interface IFakeStore {
   input?: string;
@@ -51,16 +52,16 @@ const getInput = (container: HTMLElement) => {
   return container.querySelector('input[name="text"]') as HTMLInputElement;
 };
 
-const renderApp = () => render(<App />);
+test('', () => {});
 
 describe('app', () => {
   describe('correctly renders', () => {
     it('itself', () => {
-      renderApp();
+      renderWithRouter(<App />, { route: '/' });
     });
 
     describe('- Movies-component', () => {
-      renderApp();
+      renderWithRouter(<App />, { route: '/' });
 
       it('that sets movies to the state after ComponentDidMount lifecycle is calling', async () => {
         const fetch = jest.fn(async (fakeApi: string) => {
@@ -85,13 +86,14 @@ describe('app', () => {
   describe('router correctly works:', () => {
     describe('- with home-page', () => {
       it('- and header contains required text', () => {
-        renderApp();
+        renderWithRouter(<App />, { route: '/' });
+
         expect(screen.getByText(/Welcome/i)).toBeInTheDocument();
       });
 
       describe('- where there is a SearchBar', () => {
         it("it's exist and handles user written data", () => {
-          const { container } = renderApp();
+          const { container } = renderWithRouter(<App />, { route: '/' });
           const input = getInput(container);
 
           // it is exist
@@ -109,7 +111,7 @@ describe('app', () => {
     });
 
     it('- when a user try to navigate to an another page', () => {
-      const { container } = renderApp();
+      const { container } = renderWithRouter(<App />, { route: '/' });
       const leftBtn = container.querySelectorAll('a[href]')[0];
       const input = getInput(container);
 

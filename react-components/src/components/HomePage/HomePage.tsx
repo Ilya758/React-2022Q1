@@ -2,7 +2,7 @@ import React from 'react';
 import { TAppProps } from '../../App.types';
 import { Header } from '../Header/Header';
 import { THeaderProps } from '../Header/Header.types';
-import { TMovies } from '../Movies/Movie/Movie.types';
+import { TMovie, TMovies } from '../Movies/Movie/Movie.types';
 import Movies from '../Movies/Movies';
 import Preloader from '../Preloader/Preloader';
 import { SearchBar } from '../SearchBar/SearchBar';
@@ -21,9 +21,20 @@ export class HomePage extends React.Component<TAppProps> {
   };
 
   render() {
-    const { movies, isLoading } = this.props.state;
+    const {
+      toggleModal,
+      state: { currentModalElement, movies, isLoading },
+    } = this.props;
 
-    const loadingPredicate = !isLoading ? <Movies movies={movies as TMovies} /> : <Preloader />;
+    const loadingPredicate = !isLoading ? (
+      <Movies
+        currentModalElement={currentModalElement as TMovie}
+        toggleModalCb={toggleModal}
+        movies={movies as TMovies}
+      />
+    ) : (
+      <Preloader />
+    );
 
     return (
       <>

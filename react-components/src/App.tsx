@@ -19,6 +19,8 @@ export class App extends React.Component {
     input: '',
     movies: null,
     isLoading: false,
+    modalIsOpen: false,
+    currentModalElement: null,
   };
 
   componentDidMount() {
@@ -41,10 +43,43 @@ export class App extends React.Component {
     localStorage.setItem('input', JSON.stringify(this.state.input));
   };
 
-  handleChange = (e: SyntheticEvent): void => {
-    this.setState({
-      input: (e.target as HTMLInputElement).value,
-    });
+  findCurrentElementById = (id: string) => this.state.movies?.find((movie) => movie.imdbID === id);
+
+  toggleModal = (e: React.MouseEvent) => {
+    const element = e.target as HTMLElement;
+
+    if (this.state.modalIsOpen) {
+      if (
+        element.classList.contains('overlay') ||
+        element.classList.contains('modal-close__button')
+      ) {
+        this.setState({
+          modalIsOpen: false,
+          currentModalElement: null,
+        });
+      }
+
+      return;
+    }
+
+    switch (element.tagName) {
+      case 'IMG':
+      case 'DIV':
+      case 'P': {
+        const { id } = element.closest('li') as HTMLLIElement;
+
+        this.setState({
+          modalIsOpen: true,
+          currentModalElement: this.findCurrentElementById(id),
+        });
+
+        break;
+      }
+
+      default:
+        break;
+    }
+  };
   };
 
   render() {

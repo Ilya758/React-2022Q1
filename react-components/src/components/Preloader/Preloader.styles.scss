@@ -1,0 +1,30 @@
+.preloader {
+  &__container {
+    display: flex;
+    width: 400px;
+    height: 4px;
+    overflow: hidden;
+    background-color: #acece6;
+    border-radius: 2px;
+    margin: 0.5rem 0 1rem 0;
+    overflow: hidden;
+  }
+
+  &__thumb {
+    width: 50px;
+    height: 4px;
+    background-color: #26a69a;
+    transition: 0.35s;
+    animation: slide infinite 1s cubic-bezier(0.51, 0.5, 0.07, 1.04);
+  }
+}
+
+@keyframes slide {
+  0% {
+    transform: translate(-50px, 0);
+  }
+
+  100% {
+    transform: translate(400px, 0);
+  }
+}

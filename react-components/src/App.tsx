@@ -8,13 +8,12 @@ import { PRE_URL } from './global/constants/preUrl';
 import { IState } from './App.types';
 import Form from './components/FormPage/FormPage';
 import ApiService from './services/apiService';
+import LocalStorageService from './services/localStorageService';
 
 export class App extends React.Component {
   apiService = new ApiService();
 
-  private static pull = (): string => {
-    return JSON.parse(localStorage.getItem('input') as string) || 'Empty string!';
-  };
+  localStorageService = new LocalStorageService();
 
   state: IState = {
     input: '',
@@ -24,7 +23,7 @@ export class App extends React.Component {
 
   componentDidMount() {
     this.setState({
-      input: App.pull(),
+      input: this.localStorageService.pull(),
     });
   }
 

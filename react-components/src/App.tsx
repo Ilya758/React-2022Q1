@@ -5,7 +5,7 @@ import { HomePage } from './components/HomePage/HomePage';
 import { AboutPage } from './components/AboutPage/AboutPage';
 import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
 import { PRE_URL } from './global/constants/preUrl';
-import { IState, IResponse } from './App.types';
+import { IState } from './App.types';
 import Form from './components/FormPage/FormPage';
 import ApiService from './services/apiService';
 
@@ -19,12 +19,14 @@ export class App extends React.Component {
   state: IState = {
     input: '',
     movies: null,
+    isLoading: false,
   };
 
   componentDidMount() {
     this.setState({
       input: App.pull(),
     });
+  }
 
   fetchData = (e: React.KeyboardEvent) => {
     if (e.code === 'Enter') {
@@ -48,9 +50,11 @@ export class App extends React.Component {
 
   render() {
     const state = this.state;
+    const { isLoading } = this.state;
     const commit = this.commit;
     const handleChange = this.handleChange;
     const fetchData = this.fetchData;
+    const props = { handleChange, state, commit, fetchData, isLoading };
 
     return (
       <div className="app-container">

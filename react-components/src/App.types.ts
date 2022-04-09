@@ -12,10 +12,12 @@ export interface IResponse {
 export interface IState {
   input: string;
   movies?: TMovies | null;
+  isLoading: boolean;
 }
 
 export type TAppProps = {
   state: IState;
+  isLoading: boolean;
   commit: () => void;
   handleChange: (e: SyntheticEvent) => void;
   fetchData: (e: React.KeyboardEvent) => void;

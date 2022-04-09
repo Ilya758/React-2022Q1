@@ -1,4 +1,4 @@
-import { SyntheticEvent } from 'react';
+import React, { SyntheticEvent } from 'react';
 import { TMovies } from './components/Movies/Movie/Movie.types';
 
 export type TResponseKeys = 'Response' | 'Search' | 'TotalResults';
@@ -18,4 +18,5 @@ export type TAppProps = {
   state: IState;
   commit: () => void;
   handleChange: (e: SyntheticEvent) => void;
+  fetchData: (e: React.KeyboardEvent) => void;
 };

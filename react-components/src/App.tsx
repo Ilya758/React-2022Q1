@@ -7,8 +7,11 @@ import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
 import { PRE_URL } from './global/constants/preUrl';
 import { IState, IResponse } from './App.types';
 import Form from './components/FormPage/FormPage';
+import ApiService from './services/apiService';
 
 export class App extends React.Component {
+  apiService = new ApiService();
+
   private static pull = (): string => {
     return JSON.parse(localStorage.getItem('input') as string) || 'Empty string!';
   };
@@ -23,13 +26,15 @@ export class App extends React.Component {
       input: App.pull(),
     });
 
-    fetch(`${PRE_URL}&s=avengers`)
-      .then((res: Response) => res.json())
-      .then((data: IResponse) => {
-        this.setState({ movies: data.Search });
-      })
-      .catch((err) => console.log(err));
-  }
+  fetchData = (e: React.KeyboardEvent) => {
+    if (e.code === 'Enter') {
+      this.setState({ isLoading: true });
+
+      this.apiService.fetchData(PRE_URL, this.state.input).then((data) => {
+        this.setState({ movies: data.Search, isLoading: false });
+      });
+    }
+  };
 
   private commit = (): void => {
     localStorage.setItem('input', JSON.stringify(this.state.input));
@@ -45,7 +50,7 @@ export class App extends React.Component {
     const state = this.state;
     const commit = this.commit;
     const handleChange = this.handleChange;
-    const props = { handleChange, state, commit };
+    const fetchData = this.fetchData;
 
     return (
       <div className="app-container">

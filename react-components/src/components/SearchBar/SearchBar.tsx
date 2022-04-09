@@ -15,6 +15,7 @@ export class SearchBar extends React.Component<TAppProps> {
         <input
           name="text"
           onChange={this.props.handleChange}
+          onKeyDown={this.props.fetchData}
           id="text"
           type="text"
           className="input"

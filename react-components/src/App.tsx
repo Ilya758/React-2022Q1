@@ -85,15 +85,25 @@ export class App extends React.Component {
         break;
     }
   };
+
+  extractMethods = () => {
+    const commit = this.localStorageService.commit(this.state.input);
+    const handleChange = this.handleChange;
+    const fetchData = this.fetchData;
+    const toggleModal = this.toggleModal;
+
+    return {
+      commit,
+      handleChange,
+      fetchData,
+      toggleModal,
+    };
   };
 
   render() {
     const state = this.state;
-    const { isLoading } = this.state;
-    const commit = this.commit;
-    const handleChange = this.handleChange;
-    const fetchData = this.fetchData;
-    const props = { handleChange, state, commit, fetchData, isLoading };
+    const { isLoading } = state;
+    const props = { state, isLoading, ...this.extractMethods() };
 
     return (
       <div className="app-container">

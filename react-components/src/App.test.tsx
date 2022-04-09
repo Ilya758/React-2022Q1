@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { App } from './App';
 import { IResponse } from './App.types';
+import Modal from './components/Modal/Modal';
 import Movies from './components/Movies/Movies';
 import { renderWithRouter } from './utils/testHelpers';
 
@@ -63,22 +64,43 @@ describe('app', () => {
     describe('- Movies-component', () => {
       renderWithRouter(<App />, { route: '/' });
 
-      it('that sets movies to the state after ComponentDidMount lifecycle is calling', async () => {
+      it('that sets movies to the state after user type a phrase to find the required film', async () => {
         const fetch = jest.fn(async (fakeApi: string) => {
           console.log(`fetch data from the ${fakeApi}`);
 
           return {
-            json: () => fakeApiData,
+            json: async () => fakeApiData,
           };
         });
 
-        // mock fetch
         const response = await fetch('fakeApi');
-        const { Search } = response.json();
+        const { Search } = await response.json();
 
-        // after fetch, Movies-component gets the data and renders
-        render(<Movies movies={Search} />);
-        screen.getAllByText(/title/i);
+        render(<Movies currentModalElement={null} movies={Search} />);
+
+        const text = screen.getAllByText(/title/i)[0];
+
+        // imitation of a portal-injecting element
+
+        const modalRoot = document.createElement('div');
+        modalRoot.setAttribute('id', 'modal-root');
+        document.body.appendChild(modalRoot);
+
+        const toggleModalCb = jest.fn();
+
+        userEvent.click(text);
+
+        const { unmount } = render(
+          <Modal toggleModalCb={toggleModalCb}>
+            <div>Title</div>
+          </Modal>
+        );
+
+        userEvent.click(screen.getByText(/X/));
+
+        unmount();
+
+        expect(screen.queryByText(/X/)).toBeNull();
       });
     });
   });

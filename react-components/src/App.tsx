@@ -30,17 +30,22 @@ export class App extends React.Component {
   }
 
   fetchData = (e: React.KeyboardEvent) => {
-    if (e.code === 'Enter') {
+    if (e.code.match(/Enter/i)) {
       this.setState({ isLoading: true });
 
-      this.apiService.fetchData(PRE_URL, this.state.input).then((data) => {
-        this.setState({ movies: data.Search, isLoading: false });
-      });
+      this.apiService
+        .fetchData(PRE_URL, this.state.input)
+        .then((data) => {
+          this.setState({ movies: data.Search, isLoading: false });
+        })
+        .catch((err) => console.log(err));
     }
   };
 
-  private commit = (): void => {
-    localStorage.setItem('input', JSON.stringify(this.state.input));
+  handleChange = (e: SyntheticEvent): void => {
+    this.setState({
+      input: (e.target as HTMLInputElement).value,
+    });
   };
 
   findCurrentElementById = (id: string) => this.state.movies?.find((movie) => movie.imdbID === id);

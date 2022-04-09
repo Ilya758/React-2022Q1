@@ -11,14 +11,13 @@ export default class Movie extends React.Component<TMovie> {
     const { Poster, Type, Year, Title } = this.props;
 
     return (
-      <div style={{ color: 'black' }}>
-        <div className="card">
-          <img className="card__img" src={Poster} />
-          <div className="card__content">
-            <p> {Title} </p>
-            <p>{Type}</p>
-            <p>{Year}</p>
-          </div>
+      <div className="card">
+        <img className="card__img" src={Poster} />
+
+        <div className="card__content">
+          <p> {Title} </p>
+          <p>{Type}</p>
+          <p>{Year}</p>
         </div>
       </div>
     );

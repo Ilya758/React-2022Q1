@@ -14,13 +14,17 @@ export default class Movies extends React.Component<IMovies> {
   render() {
     return (
       <ul className="list movies__list">
-        {this.movies.map((movie) => {
-          return (
-            <li key={movie.imdbID}>
-              <Movie {...movie} />
-            </li>
-          );
-        })}
+        {this.movies ? (
+          this.movies.map((movie) => {
+            return (
+              <li key={movie.imdbID}>
+                <Movie {...movie} />
+              </li>
+            );
+          })
+        ) : (
+          <h1>Nothing found!</h1>
+        )}
       </ul>
     );
   }

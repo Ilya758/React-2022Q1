@@ -1,8 +1,16 @@
 .card {
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 0 10px 0px #80808063;
+  transition: 0.35s;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 10px 0px #26a69a;
+    transform: translate(0, 5px);
+  }
 
   &__img {
-    width: 100%;
     aspect-ratio: 0.6;
   }
 

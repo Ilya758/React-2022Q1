@@ -20,26 +20,12 @@ export default class Movies extends React.Component<IMovies> {
       const { Poster: poster, Title: title, Type: type, Year: year, imdbID } = currentModalElement;
 
       modal = (
-        <Modal>
-          <div onClick={toggleModalCb} className="overlay">
-            <div className="content modal__content">
-              <span className="modal-close__button">X</span>
-
-              <h1>{title}</h1>
-              <img src={poster} alt={title} />
-              <h3>Year: {year}</h3>
-              <h3>Type: {type}</h3>
-              <h3>IMDBid : {imdbID}</h3>
-
-              <div>
-                <h3>Description</h3>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum excepturi illum modi
-                  dolore consequuntur impedit error.
-                </p>
-              </div>
-            </div>
-          </div>
+        <Modal toggleModalCb={toggleModalCb}>
+          <h1>{title}</h1>
+          <img src={poster} alt={title} />
+          <h3>Year: {year}</h3>
+          <h3>Type: {type}</h3>
+          <h3>IMDBid : {imdbID}</h3>
         </Modal>
       );
     }

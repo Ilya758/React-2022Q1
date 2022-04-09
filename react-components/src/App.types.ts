@@ -9,6 +9,10 @@ export interface IResponse {
   Search: TMovies;
 }
 
+export interface IModalProps {
+  toggleModalCb?: (e: React.MouseEvent) => void;
+}
+
 export interface IState {
   input: string;
   movies?: TMovies | null;

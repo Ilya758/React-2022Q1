@@ -1,27 +1,30 @@
-import React from 'react';
-import { TAppProps } from '../../App.types';
-export class SearchBar extends React.Component<TAppProps> {
-  constructor(props: TAppProps) {
-    super(props);
-  }
+import { useEffect } from 'react';
+import { TSearchProps } from '../../App.types';
 
-  componentWillUnmount() {
-    this.props.commit();
-  }
+const SearchBar = (props: TSearchProps) => {
+  const { handleChange, commit, fetchData, input } = props;
 
-  render() {
-    return (
-      <div style={{ margin: '30px 0' }}>
-        <input
-          name="text"
-          onChange={this.props.handleChange}
-          onKeyDown={this.props.fetchData}
-          id="text"
-          type="text"
-          className="input"
-          value={this.props.state.input}
-        />
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    return () => {
+      commit(input);
+    };
+  }, [input, commit]);
+
+  return (
+    <div style={{ margin: '30px 0' }}>
+      <input
+        name="text"
+        onChange={handleChange}
+        onKeyDown={fetchData}
+        placeholder="Enter a word to find the films"
+        id="text"
+        type="text"
+        className="input"
+        value={input}
+        autoComplete="off"
+      />
+    </div>
+  );
+};
+
+export default SearchBar;

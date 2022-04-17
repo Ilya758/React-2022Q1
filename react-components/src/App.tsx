@@ -1,67 +1,69 @@
-import React, { SyntheticEvent } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { SyntheticEvent, useEffect, useReducer } from 'react';
 import './App.scss';
 import { Route, Routes } from 'react-router';
-import { HomePage } from './components/HomePage/HomePage';
+import HomePage from './components/HomePage/HomePage';
 import { AboutPage } from './components/AboutPage/AboutPage';
 import { NotFoundPage } from './components/NotFoundPage/NotFoundPage';
 import { PRE_URL } from './global/constants/preUrl';
-import { IState } from './App.types';
 import Form from './components/FormPage/FormPage';
 import ApiService from './services/apiService';
 import LocalStorageService from './services/localStorageService';
+import { appReducer } from './store/reducers/appReducer';
+import { INITIAL_STATE } from './store/initialState';
+import {
+  fetchDataFromApi,
+  handleInputChange,
+  pullData,
+  setLoading,
+  toggleModal,
+} from './store/reducers/actionCreators';
+import { TMovie } from './components/Movies/Movie/Movie.types';
+import { IResponse } from './App.types';
 
-export class App extends React.Component {
-  apiService = new ApiService();
+const App = () => {
+  const apiService = new ApiService();
 
-  localStorageService = new LocalStorageService();
+  const { commit, pull } = new LocalStorageService();
 
-  state: IState = {
-    input: '',
-    movies: null,
-    isLoading: false,
-    modalIsOpen: false,
-    currentModalElement: null,
-  };
+  const [state, dispatch] = useReducer(appReducer, INITIAL_STATE);
 
-  componentDidMount() {
-    this.setState({
-      input: this.localStorageService.pull(),
-    });
-  }
+  useEffect(() => {
+    const previousInput = pull();
 
-  fetchData = (e: React.KeyboardEvent) => {
+    dispatch(pullData(previousInput));
+  }, []);
+
+  const fetchData = (e: React.KeyboardEvent) => {
     if (e.code.match(/Enter/i)) {
-      this.setState({ isLoading: true });
+      dispatch(setLoading());
 
-      this.apiService
-        .fetchData(PRE_URL, this.state.input)
-        .then((data) => {
-          this.setState({ movies: data.Search, isLoading: false });
+      apiService
+        .fetchData(PRE_URL, state.input)
+        .then((data: IResponse) => {
+          dispatch(fetchDataFromApi(data.Search));
         })
         .catch((err) => console.log(err));
     }
   };
 
-  handleChange = (e: SyntheticEvent): void => {
-    this.setState({
-      input: (e.target as HTMLInputElement).value,
-    });
+  const handleChange = (e: SyntheticEvent): void => {
+    const { value } = e.target as HTMLInputElement;
+
+    dispatch(handleInputChange(value));
   };
 
-  findCurrentElementById = (id: string) => this.state.movies?.find((movie) => movie.imdbID === id);
+  const findCurrentElementById = (id: string) => state.movies?.find((movie) => movie.imdbID === id);
 
-  toggleModal = (e: React.MouseEvent) => {
+  const handleToggleModal = (e: React.MouseEvent) => {
     const element = e.target as HTMLElement;
 
-    if (this.state.modalIsOpen) {
+    if (state.modalIsOpen) {
       if (
         element.classList.contains('overlay') ||
         element.classList.contains('modal-close__button')
       ) {
-        this.setState({
-          modalIsOpen: false,
-          currentModalElement: null,
-        });
+        dispatch(toggleModal());
       }
 
       return;
@@ -73,10 +75,7 @@ export class App extends React.Component {
       case 'P': {
         const { id } = element.closest('li') as HTMLLIElement;
 
-        this.setState({
-          modalIsOpen: true,
-          currentModalElement: this.findCurrentElementById(id),
-        });
+        dispatch(toggleModal(findCurrentElementById(id) as TMovie));
 
         break;
       }
@@ -86,34 +85,27 @@ export class App extends React.Component {
     }
   };
 
-  extractMethods = () => {
-    const commit = this.localStorageService.commit(this.state.input);
-    const handleChange = this.handleChange;
-    const fetchData = this.fetchData;
-    const toggleModal = this.toggleModal;
-
+  const extractMethods = () => {
     return {
       commit,
       handleChange,
       fetchData,
-      toggleModal,
+      handleToggleModal,
     };
   };
 
-  render() {
-    const state = this.state;
-    const { isLoading } = state;
-    const props = { state, isLoading, ...this.extractMethods() };
+  const props = { state, ...extractMethods() };
 
-    return (
-      <div className="app-container">
-        <Routes>
-          <Route path="/" element={<HomePage {...props} />} />
-          <Route path="form" element={<Form />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="app-container">
+      <Routes>
+        <Route path="/" element={<HomePage {...props} />} />
+        <Route path="form" element={<Form />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </div>
+  );
+};
+
+export default App;

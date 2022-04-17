@@ -23,8 +23,15 @@ export interface IState {
 
 export type TAppProps = {
   state: IState;
-  commit: () => void;
+  commit: (input: string) => void;
   handleChange: (e: SyntheticEvent) => void;
   fetchData: (e: React.KeyboardEvent) => void;
-  toggleModal: (e: React.MouseEvent) => void;
+  handleToggleModal: (e: React.MouseEvent) => void;
+};
+
+export type TSearchProps = {
+  input: string;
+  commit: (input: string) => void;
+  handleChange: (e: SyntheticEvent) => void;
+  fetchData: (e: React.KeyboardEvent) => void;
 };

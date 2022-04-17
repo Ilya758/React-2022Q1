@@ -1,9 +1,8 @@
-import React from 'react';
-import { Header } from '../Header/Header';
+import Header from '../Header/Header';
 import { THeaderProps } from '../Header/Header.types';
 
-export class NotFoundPage extends React.Component {
-  pageChars: THeaderProps = {
+export const NotFoundPage = () => {
+  const pageChars: THeaderProps = {
     heading: '404!!! Nothing found here!',
     leftBtn: 'I wanna go Home!',
     rightBtn: 'Bring me more information!',
@@ -11,11 +10,11 @@ export class NotFoundPage extends React.Component {
     rightPath: '/about',
   };
 
-  render() {
-    return (
-      <>
-        <Header pageChars={this.pageChars} />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <Header pageChars={pageChars} />
+    </>
+  );
+};
+
+export default NotFoundPage;

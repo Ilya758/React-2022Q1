@@ -1,6 +1,6 @@
 import React, { createRef, FormEvent } from 'react';
 import Card from '../Card/Card';
-import { Header } from '../Header/Header';
+import Header from '../Header/Header';
 import { THeaderProps } from '../Header/Header.types';
 import './FormPage.styles.scss';
 import { IState, IUserData, TUserErrors, TUserRefs } from './FormPage.types';

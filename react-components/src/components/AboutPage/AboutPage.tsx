@@ -1,9 +1,8 @@
-import React from 'react';
-import { Header } from '../Header/Header';
+import Header from '../Header/Header';
 import { THeaderProps } from '../Header/Header.types';
 
-export class AboutPage extends React.Component {
-  pageChars: THeaderProps = {
+export const AboutPage = () => {
+  const pageChars: THeaderProps = {
     heading: 'Welcome to the AboutPage!',
     leftBtn: 'Back to Home!',
     rightBtn: 'Try to get luck!',
@@ -11,11 +10,11 @@ export class AboutPage extends React.Component {
     rightPath: '/404',
   };
 
-  render() {
-    return (
-      <>
-        <Header pageChars={this.pageChars} />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <Header pageChars={pageChars} />
+    </>
+  );
+};
+
+export default AboutPage;

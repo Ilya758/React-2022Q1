@@ -1,18 +1,19 @@
-import React from 'react';
 import { TAppProps } from '../../App.types';
-import { Header } from '../Header/Header';
+import Header from '../Header/Header';
 import { THeaderProps } from '../Header/Header.types';
 import { TMovie, TMovies } from '../Movies/Movie/Movie.types';
 import Movies from '../Movies/Movies';
 import Preloader from '../Preloader/Preloader';
-import { SearchBar } from '../SearchBar/SearchBar';
+import SearchBar from '../SearchBar/SearchBar';
 
-export class HomePage extends React.Component<TAppProps> {
-  constructor(props: TAppProps) {
-    super(props);
-  }
-
-  pageChars: THeaderProps = {
+const HomePage = ({
+  handleToggleModal,
+  handleChange,
+  commit,
+  fetchData,
+  state: { currentModalElement, movies, isLoading, input },
+}: TAppProps) => {
+  const pageChars: THeaderProps = {
     heading: 'Welcome to the HomePage!',
     leftBtn: ' I want to know about AboutPage!',
     rightBtn: 'FIll the form!',
@@ -20,31 +21,27 @@ export class HomePage extends React.Component<TAppProps> {
     rightPath: '/form',
   };
 
-  render() {
-    const {
-      toggleModal,
-      state: { currentModalElement, movies, isLoading },
-    } = this.props;
+  const props = { handleChange, commit, fetchData, input };
 
-    const loadingPredicate = !isLoading ? (
-      <Movies
-        currentModalElement={currentModalElement as TMovie}
-        toggleModalCb={toggleModal}
-        movies={movies as TMovies}
-      />
-    ) : (
-      <Preloader />
-    );
+  const loadingPredicate = !isLoading ? (
+    <Movies
+      currentModalElement={currentModalElement as TMovie}
+      toggleModalCb={handleToggleModal}
+      movies={movies as TMovies}
+    />
+  ) : (
+    <Preloader />
+  );
 
-    return (
-      <>
-        <Header pageChars={this.pageChars} />
-        <main>
-          <SearchBar {...this.props} />
+  return (
+    <>
+      <Header pageChars={pageChars} />
+      <main>
+        <SearchBar {...props} />
+        {movies !== null ? loadingPredicate : null}
+      </main>
+    </>
+  );
+};
 
-          {movies !== null ? loadingPredicate : null}
-        </main>
-      </>
-    );
-  }
-}
+export default HomePage;

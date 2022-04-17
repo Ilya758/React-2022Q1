@@ -1,31 +1,23 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
-import { IHeader, THeaderProps } from './Header.types';
+import { IHeader } from './Header.types';
 import './Header.scss';
 
-export class Header extends React.Component<IHeader> {
-  pageChars!: THeaderProps;
+const Header = ({ pageChars: { heading, leftBtn, leftPath, rightBtn, rightPath } }: IHeader) => {
+  return (
+    <header>
+      <nav>
+        <div className="nav-wrapper">
+          <h1 className="card-panel orange lighten-2 center-align">{heading}</h1>
+          <Link to={leftPath} className="header__link">
+            {leftBtn}
+          </Link>
+          <Link to={rightPath} className="header__link">
+            {rightBtn}
+          </Link>
+        </div>
+      </nav>
+    </header>
+  );
+};
 
-  constructor(props: IHeader) {
-    super(props);
-    this.pageChars = props.pageChars;
-  }
-
-  render() {
-    return (
-      <header>
-        <nav>
-          <div className="nav-wrapper">
-            <h1 className="card-panel orange lighten-2 center-align">{this.pageChars.heading}</h1>
-            <Link to={this.pageChars.leftPath} className="header__link">
-              {this.pageChars.leftBtn}
-            </Link>
-            <Link to={this.pageChars.rightPath} className="header__link">
-              {this.pageChars.rightBtn}
-            </Link>
-          </div>
-        </nav>
-      </header>
-    );
-  }
-}
+export default Header;

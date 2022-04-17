@@ -1,30 +1,24 @@
 import React from 'react';
-import { IUserData } from '../FormPage/FormPage.types';
+import { TUser } from '../FormPage/FormPage.types';
 
-export default class Card extends React.Component<IUserData> {
-  constructor(props: IUserData) {
-    super(props);
-  }
+const Card = ({ birthday, city, email, fullName, role, skills }: TUser) => {
+  return (
+    <li style={{ padding: '10px' }} className="card">
+      <h3>New User:</h3>
+      <p>Fullname: {fullName}</p>
+      <p>Role: {role}</p>
+      <p>Birthday: {birthday}</p>
+      <p>City: {city}</p>
+      <p>Email: {email}</p>
+      <p>File was successfully downloaded!</p>
+      <p>Skills:</p>
+      <ul className="list">
+        {skills[0] && <li>- HTML </li>}
+        {skills[1] && <li>- CSS </li>}
+        {skills[2] && <li>- JS </li>}
+      </ul>
+    </li>
+  );
+};
 
-  render() {
-    const { birthday, city, email, file, fullName, role, skills } = this.props;
-
-    return (
-      <li style={{ padding: '10px' }} className="card">
-        <h3>New User:</h3>
-        <p>Fullname: {fullName}</p>
-        <p>Role: {role}</p>
-        <p>Birthday: {birthday}</p>
-        <p>City: {city}</p>
-        <p>Email: {email}</p>
-        <p>File: {file}</p>
-        <p>Skills:</p>
-        <ul className="list">
-          {skills.html && <li>- HTML </li>}
-          {skills.css && <li>- CSS </li>}
-          {skills.js && <li>- JS </li>}
-        </ul>
-      </li>
-    );
-  }
-}
+export default Card;

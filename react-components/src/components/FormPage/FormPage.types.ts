@@ -40,6 +40,17 @@ export interface IUserData {
   email: string;
 }
 
+export type TUser = {
+  fullName: string;
+  role: string;
+  file: string | File;
+  skills: string[];
+  birthday: string;
+  city: string;
+  email: string;
+  agreed: boolean;
+};
+
 export interface IState {
   cards: IUserData[];
   validate: boolean;

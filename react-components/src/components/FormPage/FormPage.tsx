@@ -33,7 +33,8 @@ const FormPage = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isValid, isDirty, isSubmitted },
+    clearErrors,
+    formState: { errors, isValid, isDirty, isSubmitted, submitCount },
   } = useForm<TUser>({
     defaultValues: userInputs,
   });
@@ -48,6 +49,7 @@ const FormPage = () => {
     }, 750);
 
     reset();
+    clearErrors();
   };
 
   const regEmail = /^[a-zA-Z.]{3}\.?[\d\w\.]{0,12}@[a-z]{2,}.[a-zA-Z]{2,}$/gi;
@@ -63,6 +65,7 @@ const FormPage = () => {
           <div className="input__container">
             <span className="field__heading">Type your fullname: </span>
             <input
+              defaultValue=""
               {...register('fullName', { required: true, minLength: 2 })}
               className="input"
               placeholder="Fullname"
@@ -80,6 +83,7 @@ const FormPage = () => {
             <span className="span_margin_right">
               <label>
                 <input
+                  defaultChecked={false}
                   {...register('role', { required: true })}
                   className="with-gap"
                   name="role"
@@ -92,6 +96,7 @@ const FormPage = () => {
             <span>
               <label>
                 <input
+                  defaultChecked={false}
                   {...register('role', { required: true })}
                   className="with-gap"
                   name="role"
@@ -109,6 +114,7 @@ const FormPage = () => {
               Place your file
             </label>
             <input
+              defaultValue=""
               {...register('file', { required: true })}
               className="input"
               type="file"
@@ -123,6 +129,7 @@ const FormPage = () => {
               <label>
                 <input
                   className="checkbox_type_skills"
+                  defaultChecked={false}
                   {...register('skills', { required: true })}
                   type="checkbox"
                   name="skills"
@@ -134,6 +141,7 @@ const FormPage = () => {
             <span className="span_margin_right">
               <label>
                 <input
+                  defaultChecked={false}
                   {...register('skills', { required: true })}
                   className="checkbox_type_skills"
                   type="checkbox"
@@ -146,6 +154,7 @@ const FormPage = () => {
             <span className="span_margin_right">
               <label>
                 <input
+                  defaultChecked={false}
                   {...register('skills', { required: true })}
                   className="checkbox_type_skills"
                   type="checkbox"
@@ -163,6 +172,7 @@ const FormPage = () => {
               Choose your birthday:
             </label>
             <input
+              defaultValue=""
               {...register('birthday', { validate: isTodayTheDayBefore, required: true })}
               className="input"
               id="date"
@@ -199,6 +209,7 @@ const FormPage = () => {
           <div>
             <span className="field__heading">Type your email: </span>
             <input
+              defaultValue=""
               {...register('email', { pattern: regEmail, required: true })}
               className="input"
               placeholder="Email"
@@ -214,6 +225,7 @@ const FormPage = () => {
               <span className="field__heading">I agree with the terms</span>
               Disagree
               <input
+                defaultValue=""
                 {...register('agreed', { required: true })}
                 className="slider__input"
                 type="checkbox"
@@ -230,7 +242,11 @@ const FormPage = () => {
 
           <div>
             <button
-              disabled={(!isDirty && !isSubmitted) || (isDirty && !isValid && isSubmitted)}
+              disabled={
+                (!isDirty && !isSubmitted) ||
+                (isDirty && !isValid && isSubmitted) ||
+                (!!submitCount && !isValid)
+              }
               onClick={handleSubmit(onSubmit)}
               className="button_type_submit"
             >

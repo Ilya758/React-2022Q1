@@ -5,6 +5,11 @@
   transition: 0.35s;
   cursor: pointer;
 
+  &__link {
+    color: #000000;
+    text-decoration: none;
+  }
+
   &:hover {
     box-shadow: 0 0 10px 0px #26a69a;
     transform: translate(0, 5px);

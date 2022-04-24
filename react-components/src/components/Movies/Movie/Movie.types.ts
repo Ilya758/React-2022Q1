@@ -1,7 +1,13 @@
 import React from 'react';
 import { IModalProps } from '../../../App.types';
 
-export type IMoviePropKeys = 'Title' | 'Type' | 'Poster' | 'Year' | 'imdbID';
+export type IMoviePropKeys =
+  | 'nameOriginal'
+  | 'type'
+  | 'posterUrl'
+  | 'raitingImdb'
+  | 'year'
+  | 'kinopoiskId';
 
 export interface IMovies extends IModalProps {
   movies: TMovies;

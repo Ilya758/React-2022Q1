@@ -7,14 +7,14 @@ const SearchBar = () => {
     commit,
     fetchData,
     handleChange,
-    state: { input },
+    state: { keyword },
   } = useContext(AppContext) as TAppProps;
 
   useEffect(() => {
     return () => {
-      commit(input);
+      commit(keyword);
     };
-  }, [input, commit]);
+  }, [keyword, commit]);
 
   return (
     <div style={{ margin: '30px 0' }}>

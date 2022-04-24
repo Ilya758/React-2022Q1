@@ -4,6 +4,7 @@ import { INITIAL_STATE } from '../initialState';
 export interface IAction {
   type: string;
   payload?: TPayloadUnion;
+  meta?: string;
 }
 
 export type TPayloadUnion = TPayloadString | TPayloadMovies | TMovie;
@@ -14,12 +15,12 @@ export type TPayloadMovies = TMovies;
 
 export type TPayloadMovie = TMovie;
 
-export const appReducer = (state = INITIAL_STATE, { type, payload }: IAction) => {
+export const appReducer = (state = INITIAL_STATE, { type, payload, meta }: IAction) => {
   switch (type) {
     case 'appReducer/PULL_DATA': {
       return {
         ...state,
-        input: payload as TPayloadString,
+        keyword: payload as TPayloadString,
       };
     }
 
@@ -41,7 +42,7 @@ export const appReducer = (state = INITIAL_STATE, { type, payload }: IAction) =>
     case 'appReducer/INPUT_CHANGE': {
       return {
         ...state,
-        input: payload as TPayloadString,
+        [meta as keyof typeof state]: payload as TPayloadString,
       };
     }
 

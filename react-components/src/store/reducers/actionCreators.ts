@@ -31,10 +31,11 @@ export const fetchDataFromApi = (payload: TMovies) => {
   };
 };
 
-export const handleInputChange = (payload: TPayloadString) => {
+export const handleInputChange = (payload: TPayloadString, meta: string) => {
   return {
     type: INPUT_CHANGE,
     payload,
+    meta,
   };
 };
 

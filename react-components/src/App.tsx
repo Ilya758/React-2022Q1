@@ -39,22 +39,30 @@ const App = () => {
     if (e.code.match(/Enter/i)) {
       dispatch(setLoading());
 
+      const { keyword, page, type, quantity } = state;
+
       apiService
-        .fetchData(PRE_URL, state.input)
-        .then((data: IResponse) => {
-          dispatch(fetchDataFromApi(data.Search));
+        .fetchData(PRE_URL, { keyword, page, type })
+        .then(({ items }: IResponse) => {
+          const filteredItems =
+            !!quantity && +quantity && items
+              ? items.filter((_, ndx) => ndx <= +quantity - 1)
+              : items;
+
+          dispatch(fetchDataFromApi(filteredItems));
         })
         .catch((err) => console.log(err));
     }
   };
 
   const handleChange = (e: SyntheticEvent): void => {
-    const { value } = e.target as HTMLInputElement;
+    const { value, name } = e.target as HTMLInputElement;
 
-    dispatch(handleInputChange(value));
+    dispatch(handleInputChange(value, name));
   };
 
-  const findCurrentElementById = (id: string) => state.movies?.find((movie) => movie.imdbID === id);
+  const findCurrentElementById = (id: string) =>
+    state.movies?.find((movie) => movie.kinopoiskId === id);
 
   const handleToggleModal = (e: React.MouseEvent) => {
     const element = e.target as HTMLElement;

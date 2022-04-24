@@ -7,15 +7,16 @@ const Movies = ({ currentModalElement, movies, toggleModalCb }: IMovies) => {
   let modal: JSX.Element | null = null;
 
   if (currentModalElement) {
-    const { Poster: poster, Title: title, Type: type, Year: year, imdbID } = currentModalElement;
+    const { kinopoiskId, nameOriginal, posterUrl, raitingImdb, type, year } = currentModalElement;
 
     modal = (
       <Modal toggleModalCb={toggleModalCb}>
-        <h1>{title}</h1>
-        <img src={poster} alt={title} />
+        <h1>{nameOriginal}</h1>
+        <img src={posterUrl} alt={nameOriginal} />
         <h3>Year: {year}</h3>
+        <h3>Raiting IMDB: {raitingImdb}</h3>
         <h3>Type: {type}</h3>
-        <h3>IMDBid : {imdbID}</h3>
+        <h3>IMDBid : {kinopoiskId}</h3>
       </Modal>
     );
   }
@@ -25,10 +26,10 @@ const Movies = ({ currentModalElement, movies, toggleModalCb }: IMovies) => {
       {modal}
 
       <ul onClick={toggleModalCb} className="list movies__list">
-        {movies ? (
+        {movies && movies.length ? (
           movies.map((movie) => {
             return (
-              <li id={movie.imdbID} key={movie.imdbID}>
+              <li id={movie.kinopoiskId} key={movie.kinopoiskId}>
                 <Movie {...movie} />
               </li>
             );

@@ -8,12 +8,14 @@ const Header = ({ pageChars: { heading, leftBtn, leftPath, rightBtn, rightPath }
       <nav>
         <div className="nav-wrapper">
           <h1 className="card-panel orange lighten-2 center-align">{heading}</h1>
-          <Link to={leftPath} className="header__link">
+          <Link to={leftPath as string} className="header__link">
             {leftBtn}
           </Link>
-          <Link to={rightPath} className="header__link">
-            {rightBtn}
-          </Link>
+          {rightPath && rightBtn && (
+            <Link to={rightPath} className="header__link">
+              {rightBtn}
+            </Link>
+          )}
         </div>
       </nav>
     </header>

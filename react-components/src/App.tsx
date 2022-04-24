@@ -21,6 +21,7 @@ import {
 import { TMovie } from './components/Movies/Movie/Movie.types';
 import { IResponse } from './App.types';
 import { AppContext } from './global/context/appContext';
+import DetailedPage from './components/DetailedPage/DetailedPage';
 
 const App = () => {
   const apiService = new ApiService();
@@ -103,7 +104,7 @@ const App = () => {
     };
   };
 
-  const value = { state, ...extractMethods() };
+  const value = { state, ...extractMethods(), dispatch };
 
   return (
     <AppContext.Provider value={value}>
@@ -112,6 +113,7 @@ const App = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="form" element={<Form />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/movies/:id" element={<DetailedPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>

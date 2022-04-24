@@ -1,5 +1,6 @@
 import React, { SyntheticEvent } from 'react';
 import { TMovie, TMovies } from './components/Movies/Movie/Movie.types';
+import { IAction } from './store/reducers/appReducer';
 
 export type TResponseKeys = 'Response' | 'Search' | 'TotalResults';
 
@@ -22,11 +23,13 @@ export interface IState {
   isLoading: boolean;
   modalIsOpen: boolean;
   currentModalElement: TMovie | null;
+  detailedPageMovie: TMovie | null;
 }
 
 export type TAppProps = {
   state: IState;
   commit: (input: string) => void;
+  dispatch: (value: IAction) => void;
   handleChange: (e: SyntheticEvent) => void;
   fetchData: (e: React.KeyboardEvent) => void;
   handleToggleModal: (e: React.MouseEvent) => void;

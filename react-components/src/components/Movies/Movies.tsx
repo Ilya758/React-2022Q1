@@ -7,14 +7,14 @@ const Movies = ({ currentModalElement, movies, toggleModalCb }: IMovies) => {
   let modal: JSX.Element | null = null;
 
   if (currentModalElement) {
-    const { kinopoiskId, nameOriginal, posterUrl, raitingImdb, type, year } = currentModalElement;
+    const { kinopoiskId, nameOriginal, posterUrl, ratingImdb, type, year } = currentModalElement;
 
     modal = (
       <Modal toggleModalCb={toggleModalCb}>
         <h1>{nameOriginal}</h1>
         <img src={posterUrl} alt={nameOriginal} />
         <h3>Year: {year}</h3>
-        <h3>Raiting IMDB: {raitingImdb}</h3>
+        <h3>Raiting IMDB: {ratingImdb}</h3>
         <h3>Type: {type}</h3>
         <h3>IMDBid : {kinopoiskId}</h3>
       </Modal>

@@ -5,5 +5,5 @@ export interface IHeader {
 }
 
 export type THeaderProps = {
-  [prop in TProps]: string;
+  [prop in TProps]?: string;
 };

@@ -5,7 +5,7 @@ export type IMoviePropKeys =
   | 'nameOriginal'
   | 'type'
   | 'posterUrl'
-  | 'raitingImdb'
+  | 'ratingImdb'
   | 'year'
   | 'kinopoiskId';
 

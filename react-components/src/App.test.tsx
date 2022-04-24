@@ -1,9 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 import App from './App';
 import { IResponse } from './App.types';
-import Modal from './components/Modal/Modal';
 import Movies from './components/Movies/Movies';
+import { AppContext } from './global/context/appContext';
+import { INITIAL_STATE } from './store/initialState';
+import { IAction } from './store/reducers/appReducer';
 import { renderWithRouter } from './utils/testHelpers';
 
 interface IFakeStore {
@@ -13,17 +16,18 @@ interface IFakeStore {
 type TKeyInStore = keyof IFakeStore;
 
 const fakeApiData: IResponse = {
-  Search: [
+  items: [
     {
-      Poster: 'poster',
-      Title: 'title',
-      Type: 'title',
-      Year: 'title',
-      imdbID: 'title',
+      kinopoiskId: '111',
+      nameOriginal: '111',
+      posterUrl: '111',
+      ratingImdb: '111',
+      type: '111',
+      year: '111',
     },
   ],
-  TotalResults: '10',
-  Response: 'true',
+  total: 1,
+  totalPages: 1,
 };
 
 const fakeLocalStorage = (function () {
@@ -50,7 +54,7 @@ beforeEach(() => {
 });
 
 const getInput = (container: HTMLElement) => {
-  return container.querySelector('input[name="text"]') as HTMLInputElement;
+  return container.querySelector('input[name="keyword"]') as HTMLInputElement;
 };
 
 test('', () => {});
@@ -74,33 +78,28 @@ describe('app', () => {
         });
 
         const response = await fetch('fakeApi');
-        const { Search } = await response.json();
+        const { items } = await response.json();
 
-        render(<Movies currentModalElement={null} movies={Search} />);
+        const dispatch = jest.fn() as (value: IAction) => void;
 
-        const text = screen.getAllByText(/title/i)[0];
+        const state = INITIAL_STATE;
 
-        // imitation of a portal-injecting element
+        const commit = jest.fn();
+        const handleChange = jest.fn();
+        const fetchData = jest.fn();
+        const handleToggleModal = jest.fn();
 
-        const modalRoot = document.createElement('div');
-        modalRoot.setAttribute('id', 'modal-root');
-        document.body.appendChild(modalRoot);
-
-        const toggleModalCb = jest.fn();
-
-        userEvent.click(text);
-
-        const { unmount } = render(
-          <Modal toggleModalCb={toggleModalCb}>
-            <div>Title</div>
-          </Modal>
+        render(
+          <AppContext.Provider
+            value={{ dispatch, state, commit, handleChange, fetchData, handleToggleModal }}
+          >
+            <MemoryRouter>
+              <Movies currentModalElement={null} movies={items} />
+            </MemoryRouter>
+          </AppContext.Provider>
         );
 
-        userEvent.click(screen.getByText(/X/));
-
-        unmount();
-
-        expect(screen.queryByText(/X/)).toBeNull();
+        screen.getAllByText(/111/i)[0];
       });
     });
   });

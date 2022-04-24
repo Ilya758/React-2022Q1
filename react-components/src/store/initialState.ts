@@ -9,4 +9,5 @@ export const INITIAL_STATE: IState = {
   isLoading: false,
   modalIsOpen: false,
   currentModalElement: null,
+  detailedPageMovie: null,
 };

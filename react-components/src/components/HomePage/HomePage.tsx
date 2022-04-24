@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import { TAppProps } from '../../App.types';
+import { AppContext } from '../../global/context/appContext';
 import Header from '../Header/Header';
 import { THeaderProps } from '../Header/Header.types';
 import { TMovie, TMovies } from '../Movies/Movie/Movie.types';
@@ -6,13 +8,7 @@ import Movies from '../Movies/Movies';
 import Preloader from '../Preloader/Preloader';
 import SearchBar from '../SearchBar/SearchBar';
 
-const HomePage = ({
-  handleToggleModal,
-  handleChange,
-  commit,
-  fetchData,
-  state: { currentModalElement, movies, isLoading, input },
-}: TAppProps) => {
+const HomePage = () => {
   const pageChars: THeaderProps = {
     heading: 'Welcome to the HomePage!',
     leftBtn: ' I want to know about AboutPage!',
@@ -21,7 +17,10 @@ const HomePage = ({
     rightPath: '/form',
   };
 
-  const props = { handleChange, commit, fetchData, input };
+  const {
+    handleToggleModal,
+    state: { isLoading, currentModalElement, movies },
+  } = useContext(AppContext) as TAppProps;
 
   const loadingPredicate = !isLoading ? (
     <Movies
@@ -37,7 +36,7 @@ const HomePage = ({
     <>
       <Header pageChars={pageChars} />
       <main>
-        <SearchBar {...props} />
+        <SearchBar />
         {movies !== null ? loadingPredicate : null}
       </main>
     </>

@@ -20,6 +20,7 @@ import {
 } from './store/reducers/actionCreators';
 import { TMovie } from './components/Movies/Movie/Movie.types';
 import { IResponse } from './App.types';
+import { AppContext } from './global/context/appContext';
 
 const App = () => {
   const apiService = new ApiService();
@@ -94,17 +95,19 @@ const App = () => {
     };
   };
 
-  const props = { state, ...extractMethods() };
+  const value = { state, ...extractMethods() };
 
   return (
-    <div className="app-container">
-      <Routes>
-        <Route path="/" element={<HomePage {...props} />} />
-        <Route path="form" element={<Form />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
-    </div>
+    <AppContext.Provider value={value}>
+      <div className="app-container">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="form" element={<Form />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </div>
+    </AppContext.Provider>
   );
 };
 

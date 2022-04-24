@@ -1,8 +1,14 @@
-import { useEffect } from 'react';
-import { TSearchProps } from '../../App.types';
+import { useContext, useEffect } from 'react';
+import { TAppProps } from '../../App.types';
+import { AppContext } from '../../global/context/appContext';
 
-const SearchBar = (props: TSearchProps) => {
-  const { handleChange, commit, fetchData, input } = props;
+const SearchBar = () => {
+  const {
+    commit,
+    fetchData,
+    handleChange,
+    state: { input },
+  } = useContext(AppContext) as TAppProps;
 
   useEffect(() => {
     return () => {

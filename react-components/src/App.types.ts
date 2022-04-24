@@ -4,9 +4,9 @@ import { TMovie, TMovies } from './components/Movies/Movie/Movie.types';
 export type TResponseKeys = 'Response' | 'Search' | 'TotalResults';
 
 export interface IResponse {
-  Response: string;
-  TotalResults: string;
-  Search: TMovies;
+  total: number;
+  totalPages: number;
+  items: TMovies;
 }
 
 export interface IModalProps {
@@ -14,7 +14,10 @@ export interface IModalProps {
 }
 
 export interface IState {
-  input: string;
+  keyword: string;
+  page: number;
+  quantity: number;
+  type: string;
   movies?: TMovies | null;
   isLoading: boolean;
   modalIsOpen: boolean;

@@ -1,6 +1,4 @@
-import { useContext } from 'react';
-import { TAppProps } from '../../App.types';
-import { AppContext } from '../../global/context/appContext';
+import { useAppSelector } from '../../store/store';
 import Header from '../Header/Header';
 import { THeaderProps } from '../Header/Header.types';
 import { TMovie, TMovies } from '../Movies/Movie/Movie.types';
@@ -17,17 +15,10 @@ const HomePage = () => {
     rightPath: '/form',
   };
 
-  const {
-    handleToggleModal,
-    state: { isLoading, currentModalElement, movies },
-  } = useContext(AppContext) as TAppProps;
+  const { isLoading, currentModalElement, movies } = useAppSelector(({ appReducer }) => appReducer);
 
   const loadingPredicate = !isLoading ? (
-    <Movies
-      currentModalElement={currentModalElement as TMovie}
-      toggleModalCb={handleToggleModal}
-      movies={movies as TMovies}
-    />
+    <Movies currentModalElement={currentModalElement as TMovie} movies={movies as TMovies} />
   ) : (
     <Preloader />
   );

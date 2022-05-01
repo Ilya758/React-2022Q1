@@ -1,14 +1,15 @@
 import { useContext, useEffect } from 'react';
 import { TAppProps } from '../../App.types';
 import { AppContext } from '../../global/context/appContext';
+import LocalStorageService from '../../services/localStorageService';
+import { useAppSelector } from '../../store/store';
 
 const SearchBar = () => {
-  const {
-    commit,
-    fetchData,
-    handleChange,
-    state: { keyword },
-  } = useContext(AppContext) as TAppProps;
+  const { fetchData, handleChange } = useContext(AppContext) as TAppProps;
+
+  const { commit } = new LocalStorageService();
+
+  const { keyword } = useAppSelector(({ appReducer }) => appReducer);
 
   useEffect(() => {
     return () => {

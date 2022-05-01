@@ -1,16 +1,14 @@
 import Header from '../Header/Header';
 import { THeaderProps } from '../Header/Header.types';
-import { useContext } from 'react';
-import { AppContext } from '../../global/context/appContext';
-import { TAppProps } from '../../App.types';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { DetailedPageInfoCard } from './DetailedPageInfoCard/DetailedPageInfoCard';
+import { useAppSelector } from '../../store/store';
 
 const DetailedPage = () => {
-  const {
-    state: { detailedPageMovie },
-  } = useContext(AppContext) as TAppProps;
+  const detailedPageMovie = useAppSelector(
+    ({ appReducer: { detailedPageMovie } }) => detailedPageMovie
+  );
 
   const navigate = useNavigate();
 

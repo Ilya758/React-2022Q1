@@ -16,8 +16,8 @@ export interface IModalProps {
 
 export interface IState {
   keyword: string;
-  page: number;
-  quantity: number;
+  page: string;
+  quantity: string;
   type: string;
   movies?: TMovies | null;
   isLoading: boolean;
@@ -27,12 +27,10 @@ export interface IState {
 }
 
 export type TAppProps = {
-  state: IState;
   commit: (input: string) => void;
   dispatch: (value: IAction) => void;
   handleChange: (e: SyntheticEvent) => void;
   fetchData: (e: React.KeyboardEvent) => void;
-  handleToggleModal: (e: React.MouseEvent) => void;
 };
 
 export type TSearchProps = {

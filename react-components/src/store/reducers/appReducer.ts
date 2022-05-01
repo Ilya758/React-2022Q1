@@ -1,14 +1,7 @@
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IResponse, IState } from '../../App.types';
 import { TMovie, TMovies } from '../../components/Movies/Movie/Movie.types';
-import { INITIAL_STATE } from '../initialState';
-import {
-  FETCH_DATA,
-  INPUT_CHANGE,
-  LOADING,
-  PULL_DATA,
-  SET_DETAILED_PAGE_MOVIE,
-  TOGGLE_MODAL,
-} from './actionCreators';
-
+import ApiService from '../../services/apiService';
 export interface IAction {
   type: string;
   payload?: TPayloadUnion;
@@ -23,56 +16,98 @@ export type TPayloadMovies = TMovies;
 
 export type TPayloadMovie = TMovie;
 
-export const appReducer = (state = INITIAL_STATE, { type, payload, meta }: IAction) => {
-  switch (type) {
-    case PULL_DATA: {
-      return {
-        ...state,
-        keyword: payload as TPayloadString,
-      };
-    }
+export type InputChange = { name: string; meta: string };
 
-    case LOADING: {
-      return {
-        ...state,
-        isLoading: true,
-      };
-    }
+export const initialState: IState = {
+  keyword: '',
+  page: '1',
+  quantity: '0',
+  type: 'ALL',
+  movies: null,
+  isLoading: false,
+  modalIsOpen: false,
+  currentModalElement: null,
+  detailedPageMovie: null,
+};
 
-    case FETCH_DATA: {
-      return {
-        ...state,
-        isLoading: false,
-        movies: payload as TPayloadMovies,
-      };
-    }
+export const fetchDataFromApi = createAsyncThunk(
+  'appReducer/fetchData',
+  async (
+    {
+      url,
+      keyword,
+      quantity,
+      type,
+      page,
+    }: {
+      url: string;
+      keyword: string;
+      quantity: string;
+      type: string;
+      page: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const { fetchData } = new ApiService();
 
-    case INPUT_CHANGE: {
-      return {
-        ...state,
-        [meta as keyof typeof state]: payload as TPayloadString,
-      };
-    }
+      const response = await fetchData(url, { keyword, page, type });
 
-    case TOGGLE_MODAL: {
-      const movie = payload as TMovie;
+      const { items } = (await (response as Response).json()) as IResponse;
 
-      return {
-        ...state,
-        modalIsOpen: !state.modalIsOpen,
-        currentModalElement: movie || null,
-      };
-    }
+      const filteredItems =
+        !!quantity && +quantity && items ? items.filter((_, ndx) => ndx <= +quantity - 1) : items;
 
-    case SET_DETAILED_PAGE_MOVIE: {
-      return {
-        ...state,
-        detailedPageMovie: payload as TPayloadMovie,
-      };
-    }
-
-    default: {
-      return state;
+      return filteredItems || null;
+    } catch (err) {
+      rejectWithValue((err as Error).message);
     }
   }
-};
+);
+
+export const appReducer = createSlice({
+  name: 'appReducer',
+  initialState,
+  reducers: {
+    pullData: (state, { payload }: PayloadAction<TPayloadString>) => {
+      state.keyword = payload as TPayloadString;
+    },
+
+    loading: (state) => {
+      state.isLoading = true;
+    },
+
+    inputChange: (state, { payload: { name, meta } }: PayloadAction<InputChange>) => {
+      const key = name as keyof Pick<IState, 'quantity' | 'keyword' | 'page' | 'type'>;
+
+      state[key] = meta as TPayloadString;
+    },
+
+    toggleModal: (state, { payload }: IAction) => {
+      const movie = payload as TMovie;
+
+      state.modalIsOpen = !state.modalIsOpen;
+      state.currentModalElement = movie || null;
+    },
+
+    setDetailedPageMovie: (state, { payload }: PayloadAction<TMovie>) => {
+      state.detailedPageMovie = payload as TMovie;
+    },
+  },
+  extraReducers: (builder) =>
+    builder
+      .addCase(fetchDataFromApi['fulfilled'], (state, action) => {
+        state.isLoading = false;
+        state.movies = action.payload as unknown as TPayloadMovies;
+      })
+      .addCase(fetchDataFromApi['pending'], (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchDataFromApi['rejected'], (_, action) => {
+        console.log(action.payload as string);
+      }),
+});
+
+export const { inputChange, loading, pullData, setDetailedPageMovie, toggleModal } =
+  appReducer.actions;
+export default appReducer.reducer;

@@ -1,13 +1,20 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
+import { Provider } from 'react-redux';
 import App from '../../App';
+import { store } from '../../store/store';
 import { renderWithRouter } from '../../utils/testHelpers';
 
 describe('form correctly renders', () => {
   it('own elements', async () => {
     act(() => {
-      renderWithRouter(<App />, { route: '/form' });
+      renderWithRouter(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+        { route: '/form' }
+      );
 
       const fullNameField = screen.getByPlaceholderText(/Fullname/);
       const maleGenderField = screen.getByText(/Male/);

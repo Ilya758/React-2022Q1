@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import App from './App';
 import { IResponse } from './App.types';
 import Movies from './components/Movies/Movies';
 import { AppContext } from './global/context/appContext';
-import { INITIAL_STATE } from './store/initialState';
 import { IAction } from './store/reducers/appReducer';
+import { store } from './store/store';
 import { renderWithRouter } from './utils/testHelpers';
 
 interface IFakeStore {
@@ -62,11 +63,21 @@ test('', () => {});
 describe('app', () => {
   describe('correctly renders', () => {
     it('itself', () => {
-      renderWithRouter(<App />, { route: '/' });
+      renderWithRouter(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+        { route: '/' }
+      );
     });
 
     describe('- Movies-component', () => {
-      renderWithRouter(<App />, { route: '/' });
+      renderWithRouter(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+        { route: '/' }
+      );
 
       it('that sets movies to the state after user type a phrase to find the required film', async () => {
         const fetch = jest.fn(async (fakeApi: string) => {
@@ -82,21 +93,18 @@ describe('app', () => {
 
         const dispatch = jest.fn() as (value: IAction) => void;
 
-        const state = INITIAL_STATE;
-
         const commit = jest.fn();
         const handleChange = jest.fn();
         const fetchData = jest.fn();
-        const handleToggleModal = jest.fn();
 
         render(
-          <AppContext.Provider
-            value={{ dispatch, state, commit, handleChange, fetchData, handleToggleModal }}
-          >
-            <MemoryRouter>
-              <Movies currentModalElement={null} movies={items} />
-            </MemoryRouter>
-          </AppContext.Provider>
+          <Provider store={store}>
+            <AppContext.Provider value={{ dispatch, commit, handleChange, fetchData }}>
+              <MemoryRouter>
+                <Movies currentModalElement={null} movies={items} />
+              </MemoryRouter>
+            </AppContext.Provider>
+          </Provider>
         );
 
         screen.getAllByText(/111/i)[0];
@@ -107,14 +115,24 @@ describe('app', () => {
   describe('router correctly works:', () => {
     describe('- with home-page', () => {
       it('- and header contains required text', () => {
-        renderWithRouter(<App />, { route: '/' });
+        renderWithRouter(
+          <Provider store={store}>
+            <App />
+          </Provider>,
+          { route: '/' }
+        );
 
         expect(screen.getByText(/Welcome/i)).toBeInTheDocument();
       });
 
       describe('- where there is a SearchBar', () => {
         it("it's exist and handles user written data", () => {
-          const { container } = renderWithRouter(<App />, { route: '/' });
+          const { container } = renderWithRouter(
+            <Provider store={store}>
+              <App />
+            </Provider>,
+            { route: '/' }
+          );
           const input = getInput(container);
 
           // it is exist
@@ -132,7 +150,12 @@ describe('app', () => {
     });
 
     it('- when a user try to navigate to an another page', () => {
-      const { container } = renderWithRouter(<App />, { route: '/' });
+      const { container } = renderWithRouter(
+        <Provider store={store}>
+          <App />
+        </Provider>,
+        { route: '/' }
+      );
       const leftBtn = container.querySelectorAll('a[href]')[0];
       const input = getInput(container);
 
